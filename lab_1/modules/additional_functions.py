@@ -18,7 +18,6 @@ def frequency_analysis(text: str) -> dict:
             frequency[symbol] += 1 / lenght
         else:
             frequency[symbol] = 1 / lenght
-    for value in frequency.values():
-        round(value, 6)
+    
     return dict(sorted(frequency.items(), key=lambda x: x[1], reverse=True))
 
