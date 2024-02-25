@@ -14,9 +14,14 @@ def write_file(path: str, text: str) -> None:
     with open(path, 'a', encoding='utf-8') as file:
         file.write(text)
 
-def write_to_json(path: str, data: dict)->None:    
+def write_dict_to_json(path: str, data: dict)->None:    
     with open(path, 'a', encoding='utf-8') as file:
-        json.dump(data, file)
+        json.dump(data, file, ensure_ascii=False)
+        file.write('\n')
+
+        # for key, value in data.items():
+        #     json.dump({key: value}, file, ensure_ascii=False)
+        #     file.write('\n')
     
 
 def read_json(path: str)->dict:

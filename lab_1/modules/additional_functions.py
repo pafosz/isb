@@ -9,3 +9,16 @@ def defining_alphabet(text: str)->str:
             return ENG
         else:
             raise ValueError('Такого языка я не знаю')
+        
+def frequency_analysis(text: str) -> dict:
+    frequency = {}
+    lenght = len(text)
+    for symbol in text:
+        if symbol in frequency:
+            frequency[symbol] += 1 / lenght
+        else:
+            frequency[symbol] = 1 / lenght
+    for value in frequency.values():
+        round(value, 6)
+    return dict(sorted(frequency.items(), key=lambda x: x[1], reverse=True))
+

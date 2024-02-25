@@ -3,9 +3,9 @@ from modules.cypher import *
 from modules.decypher import *
 
 KEY = 3
-PATH_FOR_READ = f'texts\\first_part'
-PATH_FOR_WRITE_ENCRYPTED = f'texts\\first_part\encrypted_text.txt'
-PATH_FOR_WRITE_DECRYPTED = f'texts\\first_part\decrypted_text.txt'
+# PATH_FOR_READ = f'texts\\first_part'
+# PATH_FOR_WRITE_ENCRYPTED = f'texts\\first_part\encrypted_text.txt'
+# PATH_FOR_WRITE_DECRYPTED = f'texts\\first_part\decrypted_text.txt'
 
 # ОСТАВИТЬ!!!
 #write_file(PATH_FOR_WRITE_ENCRYPTED, сaesar_cypher(read_text(PATH_FOR_READ, 'src_text.txt'), KEY))
@@ -20,6 +20,10 @@ PATH_FOR_WRITE_DECRYPTED = f'texts\\first_part\decrypted_text.txt'
 
 #сaesar_cypher(read_text('texts\\first_part', 'src_text.txt'), 2)
 
-key = {'key': 3}
+# key = {'key': 3}
 #
-print(read_json(f'texts\\first_part\encryption_key.json').values())
+# print(read_json(f'texts\\first_part\encryption_key.json').values())
+
+#write_dict_to_json(f'texts\\second_part\\frequency_analysis.json', frequency_analysis(read_text(f'texts\\second_part', 'cod5.txt')))
+#print(frequency_analysis(read_text(f'texts\\second_part', 'cod5.txt')))
+print(round(25.456987884889, 5))

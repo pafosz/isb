@@ -11,3 +11,8 @@ def decypher_caesar(encrypted_text: str, key: int)->str:
             decypher += symbol
 
     return decypher
+
+def decrypt_by_key(cypher: str, key: dict)->str:
+    decrypted_text = ""
+    for symbol in cypher:
+        decrypted_text
