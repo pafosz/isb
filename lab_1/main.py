@@ -12,9 +12,8 @@ KEY = 3
 #write_file(PATH_FOR_WRITE_ENCRYPTED, сaesar_cypher(read_text(PATH_FOR_READ, 'src_text.txt'), KEY))
 #write_file(PATH_FOR_WRITE_DECRYPTED, decypher_caesar(read_text(PATH_FOR_READ, 'encrypted_text.txt'), KEY))
 #write_to_json(f'texts\\first_part\encryption_key.json', key)
-#write_dict_to_json(f'texts\\second_part\\encryption_key.json', 
-                    #get_key(read_json('texts\second_part\\frequency_analysis.json'), 
-                    #read_json('texts\second_part\standard_frequency.json')))
+# write_dict_to_json(f'texts\\second_part\\encryption_key.json', 
+#                     get_key(read_json('texts\second_part\standard_frequency.json'), read_json('texts\second_part\\frequency_analysis.json')))
 # ОСТАВИТЬ!!!
 
 # print(detect(read_text(f'texts\\first_part', 'src_text.txt')))
@@ -29,4 +28,16 @@ KEY = 3
 #write_dict_to_json(f'texts\\second_part\\frequency_analysis.json', frequency_analysis(read_text(f'texts\\second_part', 'cod5.txt')))
 #print(frequency_analysis(read_text(f'texts\\second_part', 'cod5.txt')))
 #print(get_key(read_json('texts\second_part\\frequency_analysis.json'), read_json('texts\second_part\standard_frequency.json')))
-print(decrypt_by_key(read_text('texts\second_part\cod5.txt'), read_json(f'texts\second_part\encryption_key.json')))
+
+PATH_AT_COD5 = r'texts\second_part\cod5.txt'
+PATH_AT_KEY = r'texts\second_part\encryption_key.json'
+#print(decrypt_by_key(read_text(PATH_AT_COD5), read_json(PATH_AT_KEY)))
+
+cypher = read_text(PATH_AT_COD5)
+key = read_json(PATH_AT_KEY)
+
+dec_txt = decrypt_by_key(cypher, key)
+
+print(dec_txt)
+
+write_file(r'texts\second_part\decrypted_text.txt', dec_txt)
