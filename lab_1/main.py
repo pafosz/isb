@@ -1,8 +1,8 @@
-from modules.text_operations import *
-from modules.cypher import *
-from modules.decypher import *
 import argparse
 
+from modules.cypher import *
+from modules.decypher import *
+from modules.text_operations import *
 
 def main():    
 
