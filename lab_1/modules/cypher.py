@@ -1,6 +1,15 @@
 from modules.additional_functions import *
 
-def сaesar_cypher(text: str, key: int)->str:  
+def сaesar_cypher(text: str, key: int) -> str:
+    '''
+    Encrypts the source text using the Caesar method using a given key.
+            Parameters:    
+                    text (str): the source text
+                    key (int): encryption key                   
+            Return value:
+                    str: the function returns the 
+                    encrypted text as a string
+    '''  
     text = text.upper()
     alphabet = defining_alphabet(text)
    

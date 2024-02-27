@@ -1,6 +1,15 @@
 from modules.additional_functions import *
 
-def decypher_caesar(encrypted_text: str, key: int)->str:
+def decypher_caesar(encrypted_text: str, key: int) -> str:
+    '''
+    Decrypts the text using the Caesar method using the specified key.
+            Parameters:    
+                    encrypted_text (str): encrypted text
+                    key (int): encryption key                   
+            Return value:
+                    str: the function returns 
+                    the decrypted text as a string
+    '''
     alphabet = defining_alphabet(encrypted_text)
     decypher = ""
 
@@ -13,17 +22,17 @@ def decypher_caesar(encrypted_text: str, key: int)->str:
 
     return decypher
 
-def get_key(dict1: dict, dict2: dict)->dict:
-    encryption_key = {}
-    keys_list = list(dict2.keys())
-    for key1 in dict1.keys():
-        if keys_list:
-            key2 = keys_list.pop(0)
-            encryption_key[key2] = key1
-    return encryption_key
-
-def decrypt_by_key(cypher: str, key: dict)->str:
+def decrypt_by_key(encrypted_text: str, key: dict) -> str:
+    '''
+    Decrypts the text by frequency analysis using the specified key.
+            Parameters:    
+                    encrypted_text (str): encrypted text
+                    key (dict): encryption key                   
+            Return value:
+                    str: the function returns 
+                    the decrypted text as a string
+    '''
     decr_text = ""
-    for symbol in cypher:
+    for symbol in encrypted_text:
         decr_text += symbol.replace(symbol, key[symbol])
     return decr_text
