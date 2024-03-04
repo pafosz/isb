@@ -1,5 +1,9 @@
-RUS = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
-ENG = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+from enum import Enum
+
+class Language(Enum):
+
+    RUS = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+    ENG = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 def defining_alphabet(text: str) -> str:
     '''
@@ -10,11 +14,11 @@ def defining_alphabet(text: str) -> str:
                     str: the function returns a string 
                     with the selected alphabet
     '''
-    for symbol in text:
-        if symbol in RUS:
-            return RUS
-        elif symbol in ENG:
-            return ENG
+    for symbol in text:    
+        if symbol in Language.RUS.value:
+            return Language.RUS.value
+        elif symbol in Language.ENG.value:
+            return Language.ENG.value
         else:
             raise ValueError('I do not know such a language')
         
@@ -28,12 +32,10 @@ def frequency_analysis(text: str) -> dict:
                     dictionary with frequency analysis data
     '''
     frequency = {}
-    lenght = len(text)
-    for symbol in text:
-        if symbol in frequency:
-            frequency[symbol] += 1 / lenght
-        else:
-            frequency[symbol] = 1 / lenght
+    length = len(text)
+    for symbol in set(text):
+        count = text.count(symbol)
+        frequency[symbol] = round((count / length), 6)
     
     return dict(sorted(frequency.items(), key=lambda x: x[1], reverse=True))
 

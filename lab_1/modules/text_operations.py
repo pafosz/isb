@@ -9,9 +9,12 @@ def read_text(path: str) -> str :
                     str: returns the text
     '''
     text = ""
-    with open(path, 'r', encoding='utf-8') as file:
-        text = file.read()
-    return text
+    try:
+        with open(path, 'r', encoding='utf-8') as file:
+                text = file.read()
+        return text
+    except Exception as e:
+        print(f"An error occurred while reading the file: {str(e)}")
 
 def write_file(path: str, text: str) -> None:
     '''
@@ -38,9 +41,12 @@ def write_dict_to_json(path: str, data: dict) -> None:
             Return value:
                     None
     '''    
-    with open(path, 'a', encoding='utf-8') as file:
-        json.dump(data, file, ensure_ascii=False)
-        file.write('\n')    
+    try:
+        with open(path, 'w', encoding='utf-8') as file:
+                json.dump(data, file, ensure_ascii=False)
+                file.write('\n')
+    except Exception as e:
+         print(f"An error occurred while writing to the json file: {str(e)}")    
 
 def read_json(path: str) -> dict:
     '''
@@ -49,6 +55,9 @@ def read_json(path: str) -> dict:
                     path (str): the path to the file
             Return value:
                     dict: returns the dictionary
-    '''    
-    with open(path, 'r', encoding='utf-8') as file:
-        return json.load(file)
+    '''  
+    try:           
+        with open(path, 'r', encoding='utf-8') as file:
+                return json.load(file)
+    except Exception as e:
+         print(f"An error occurred while reading the json file: {str(e)}")
