@@ -1,11 +1,18 @@
 from modules.additional_functions import *
 
-def сaesar_cypher(text: str, key: int) -> str:
+class Mode(Enum):
+
+    ENCRYPT = 'encrypt'
+    DECRYPT = 'decrypt'
+
+def сaesar_cypher(text: str, key: int, mode: Mode) -> str:
     '''
-    Encrypts the source text using the Caesar method using a given key.
+    Encrypts or decrypts the source text using the Caesar method using the specified key.
             Parameters:    
                     text (str): the source text
-                    key (int): encryption key                   
+                    key (int): encryption key
+                    mode (Mode): select the mode of operation 
+                            of the function (0 - encrypt, 1 - decrypt)                
             Return value:
                     str: the function returns the 
                     encrypted text as a string
@@ -13,20 +20,18 @@ def сaesar_cypher(text: str, key: int) -> str:
     text = text.upper()
     alphabet = defining_alphabet(text)
    
-    cypher = ""
+    final_text = ""
+    
     for symbol in text:
         if symbol in alphabet:
-            index = (alphabet.index(symbol) + key) % len(alphabet)
-            cypher += alphabet[index]
+            match mode:
+                case 0:
+                    index = (alphabet.index(symbol) + key) % len(alphabet)
+                case 1:
+                    index = (alphabet.index(symbol) + (len(alphabet) - key)) % len(alphabet)
+
+            final_text += alphabet[index]
         else:
-            cypher += symbol
+            final_text += symbol
 
-    return cypher
-
-    
-
-
-    
-        
-
-    
+    return final_text
