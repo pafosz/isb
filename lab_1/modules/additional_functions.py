@@ -14,13 +14,11 @@ def defining_alphabet(text: str) -> str:
                     str: the function returns a string 
                     with the selected alphabet
     '''
-    for symbol in text:    
-        if symbol in Language.RUS.value:
-            return Language.RUS.value
-        elif symbol in Language.ENG.value:
-            return Language.ENG.value
-        else:
-            raise ValueError('I do not know such a language')
+    if any(char in Language.RUS.value for char in text):
+        return Language.RUS.value
+    else:
+        return Language.ENG.value
+    
         
 def frequency_analysis(text: str) -> dict:
     '''

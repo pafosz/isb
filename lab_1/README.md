@@ -23,10 +23,10 @@
 ### Инструкция работы с терминалом
 
 - зашифровать текст шифром Цезаря              
-    python main.py encrypt -k 'texts\first_part\encryption_key.json' -inpf 'texts\first_part\src_text.txt' -outf 'texts\first_part\encrypted_text.txt'
+    python main.py encrypt -m caesar -k 'texts\first_part\encryption_key.json' -inpf 'texts\first_part\src_text.txt' -outf 'texts\first_part\encrypted_text.txt'
 
 - расшифровать текст методом Цезаря
-    python main.py decrypt -m Caesar -k 'texts\first_part\encryption_key.json' -inpf 'texts\first_part\encrypted_text.txt' -outf 'texts\first_part\decrypted_text.txt' 
+    python main.py decrypt -m caesar -k 'texts\first_part\encryption_key.json' -inpf 'texts\first_part\encrypted_text.txt' -outf 'texts\first_part\decrypted_text.txt' 
 
 - расшифровать текст методом частотного анализа
     python main.py decrypt -m frequency -k 'texts\second_part\encryption_key.json' -inpf 'texts\second_part\cod5.txt' -outf 'texts\second_part\decrypted_text.txt'

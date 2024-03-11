@@ -12,7 +12,7 @@ def сaesar_cypher(text: str, key: int, mode: Mode) -> str:
                     text (str): the source text
                     key (int): encryption key
                     mode (Mode): select the mode of operation 
-                            of the function (0 - encrypt, 1 - decrypt)                
+                            of the function               
             Return value:
                     str: the function returns the 
                     encrypted text as a string
@@ -25,9 +25,9 @@ def сaesar_cypher(text: str, key: int, mode: Mode) -> str:
     for symbol in text:
         if symbol in alphabet:
             match mode:
-                case 0:
+                case Mode.ENCRYPT.value:
                     index = (alphabet.index(symbol) + key) % len(alphabet)
-                case 1:
+                case Mode.DECRYPT.value:
                     index = (alphabet.index(symbol) + (len(alphabet) - key)) % len(alphabet)
 
             final_text += alphabet[index]
