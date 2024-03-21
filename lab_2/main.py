@@ -9,7 +9,7 @@ def main():
     key2 = "Java"
     sequence = read_json(path_to_file_with_sequences)
     #print(sequence[key1])
-    #print(frequency_bitwise_test(sequence[key2]))
+    print(frequency_bitwise_test(sequence[key1]))
     print(same_consecutive_bits_test(sequence[key1]))
     print(longest_sequence_test(sequence[key1]))
     
