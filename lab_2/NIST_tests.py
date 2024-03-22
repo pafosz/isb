@@ -1,4 +1,5 @@
 import logging
+
 from math import sqrt, erfc
 from mpmath import gammainc
 
@@ -21,6 +22,7 @@ def frequency_bitwise_test(sequence: str) -> float:
     except Exception as e:  
         logging.error(f"error in 'frequency_bitwise_test' {e}")
 
+
 def same_consecutive_bits_test(sequence: str) -> float:
     """
     This function calculates a statistical test value based on the input binary sequence.
@@ -32,17 +34,15 @@ def same_consecutive_bits_test(sequence: str) -> float:
             float: The statistical test value calculated based on the input sequence.
     """
     try:
-        percentage_of_units = sequence.count("1") / len(sequence)
-        
+        percentage_of_units = sequence.count("1") / len(sequence)        
         if abs((percentage_of_units - 0.5)) >= 2 / sqrt(len(sequence)):
-            return 0 
-        
+            return 0         
         v_n = sum([(0 if sequence[i] == sequence[i + 1] else 1) for i in range(0, (len(sequence) - 1))])
-
         return erfc((abs(v_n - (2 * len(sequence) * percentage_of_units * (1 - percentage_of_units))))
                     / (2 * sqrt(2 * len(sequence)) * percentage_of_units * (1 - percentage_of_units)))
     except Exception as e:
         logging.error(f"error in 'same_consecutive_bits_test' {e}")
+
 
 def longest_sequence_test(sequence: str, block_size: int = 8) -> float:
     """
@@ -59,7 +59,6 @@ def longest_sequence_test(sequence: str, block_size: int = 8) -> float:
     """
     try:
         blocks = [sequence[i : i + block_size] for i in range(0, len(sequence), block_size)]
-
         number_of_ones = [(maximum_sequence_length(i)) for i in blocks]
 
         v = {0: 0, 1: 0, 2: 0, 3: 0}
@@ -75,11 +74,11 @@ def longest_sequence_test(sequence: str, block_size: int = 8) -> float:
                 case _:
                     v[3] += 1
         chi = sum([((pow(v[i] - 16 * PI[i], 2)) / (16 * PI[i])) for i in range(0, 3)])
-
         return gammainc(1.5, (pow(chi, 2) / 2))
 
     except Exception as e:
         logging.error(f"error in 'longest_sequence_test' {e}")
+
 
 def maximum_sequence_length(sequence: str) -> int:
     """ 
@@ -94,7 +93,6 @@ def maximum_sequence_length(sequence: str) -> int:
     """
     max_len = 0
     cur_len = 0
-
     try:
         
         for i in sequence:
