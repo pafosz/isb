@@ -16,6 +16,22 @@ def read_json(path_to_file: str) -> str:
             json_data = json.load(file)         
             return json_data
         except Exception as e:
-            logging.error(e)
-            
+            logging.error(e)  
+                    
         
+def write_to_file(str: str, path: str) -> None:
+    """
+    Write a string to a file.
+
+        Args:
+            str (str): The string to write to the file.
+            path (str): The file path where the string will be written.
+
+        Returns:
+            None
+    """
+    try:
+        with open(path, 'a', encoding='utf-8') as file:
+            file.write(str)
+    except Exception as e:
+        logging.error(e)

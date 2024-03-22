@@ -93,17 +93,10 @@ def maximum_sequence_length(sequence: str) -> int:
     """
     max_len = 0
     cur_len = 0
-    try:
-        
+    try:        
         for i in sequence:
             cur_len = cur_len + 1 if i == "1" else 0
             max_len = max(max_len, cur_len)           
         return max_len
     except Exception as e:
        logging.error(f"error in 'maximum_sequence_length' {e}")
-
-
-
-
-
-
