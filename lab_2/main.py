@@ -14,7 +14,8 @@ def main():
     print(f"Частотный побитовый тест (Java): {frequency_bitwise_test(sequence[key2])}\n")
     print(f"Тест на одинаковые подряд идущие биты (Java): {same_consecutive_bits_test(sequence[key2])}\n")
     print(f"Тест на самую длинную последовательность единиц в блоке (Java): {longest_sequence_test(sequence[key2])}\n")
-    
+       
+
 if __name__ == "__main__":
     main()
 else: 

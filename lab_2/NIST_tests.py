@@ -73,8 +73,8 @@ def longest_sequence_test(sequence: str, block_size: int = 8) -> float:
                     v[2] += 1
                 case _:
                     v[3] += 1
-        chi = sum([((pow(v[i] - 16 * PI[i], 2)) / (16 * PI[i])) for i in range(0, 3)])
-        return gammainc(1.5, (pow(chi, 2) / 2))
+        chi = sum([((pow(v[i] - 16 * PI[i], 2)) / (16 * PI[i])) for i in range(0, 4)])
+        return gammainc(1.5, (chi / 2))
 
     except Exception as e:
         logging.error(f"error in 'longest_sequence_test' {e}")
