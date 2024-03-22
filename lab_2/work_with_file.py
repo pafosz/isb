@@ -1,4 +1,5 @@
 import json
+import logging
 
 def read_json(path_to_file: str) -> str:
     """
@@ -14,5 +15,7 @@ def read_json(path_to_file: str) -> str:
         try:   
             json_data = json.load(file)         
             return json_data
-        except KeyError:
-            return None
+        except Exception as e:
+            logging.error(e)
+            
+        
