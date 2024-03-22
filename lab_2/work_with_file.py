@@ -16,4 +16,3 @@ def read_json(path_to_file: str) -> str:
             return json_data
         except KeyError:
             return None
-

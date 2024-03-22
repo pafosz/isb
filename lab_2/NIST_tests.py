@@ -1,6 +1,6 @@
+import logging
 from math import sqrt, erfc
 from mpmath import gammainc
-import logging
 
 PI = {0: 0.2148, 1: 0.3672, 2: 0.2305, 3: 0.1875}
 
