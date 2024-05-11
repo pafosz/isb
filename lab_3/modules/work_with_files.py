@@ -1,6 +1,7 @@
 import json
 import logging
 
+
 def writing_to_json(data: str, path: str)->None:
     """
     Writes data in JSON format to a file.
@@ -56,6 +57,7 @@ def write_bytes_to_txt(data: str, path: str)->None:
     except Exception as e:
         logging.error(f'[write_to_txt]: {e}')
 
+
 def read_bytes(path: str)->bytes:
     """
     Reads byte data from a file.
@@ -72,3 +74,35 @@ def read_bytes(path: str)->bytes:
         return data
     except Exception as e:
         logging.error(f'[read_bytes]: {e}')
+
+
+def write_to_txt(text: str, path: str)->None:
+    """
+    Writes the given text to a file at the specified path.
+
+    Args:
+    text (str): The text to be written to the file.
+    path (str): The path to the file where the text will be written.    
+    """
+    try:
+        with open(path, 'w') as file:
+            file.write(text)
+    except Exception as e:
+        logging.error(f'[write_to_txt]: {e}')
+
+
+def read_txt(path: str)->None:
+    """
+    Reads the contents of the file at the specified path.
+
+    Args:
+    path (str): The path to the file to be read.
+
+    Returns:
+    str: The contents of the file.
+    """
+    try:
+        with open(path, 'r') as file:
+            return file.read()
+    except Exception as e:
+        logging.error(f'[read_txt]: {e}')

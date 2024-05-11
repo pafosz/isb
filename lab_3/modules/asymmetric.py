@@ -78,28 +78,28 @@ class Asymmetric:
             private_bytes = pem_in.read()
             self.private_key = load_pem_private_key(private_bytes,password=None,)
 
-    def text_encryption(self, text: str)->bytes:
+    def encrypt_symmetric_key(self, key: bytes)->bytes:
         """
         Encrypt the given text using the public key.
 
         Args:
-        text (str): The text to be encrypted.
+        key (bytes): The key to be encrypted.
 
         Returns:
-        bytes: The encrypted ciphertext.
+        bytes: The encrypted cipherkey.
         """
-        return self.public_key.encrypt(bytes(text, 'UTF-8'), padding.OAEP(mgf=padding.MGF1(
+        return self.public_key.encrypt(bytes(key, 'UTF-8'), padding.OAEP(mgf=padding.MGF1(
             algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None))       
     
-    def  decryption_text(self, text: bytes)->str:
+    def decryption_symmetric_key(self, key: bytes)->str:
         """
         Decrypt the given ciphertext using the private key.
 
         Args:
-        text (bytes): The encrypted ciphertext.
+        key (bytes): The encrypted cipherkey.
 
         Returns:
         str: The decrypted plaintext.
         """
-        return self.private_key.decrypt(text,padding.OAEP(mgf=padding.MGF1(
+        return self.private_key.decrypt(key,padding.OAEP(mgf=padding.MGF1(
             algorithm=hashes.SHA256()),algorithm=hashes.SHA256(),label=None)).decode('UTF-8')

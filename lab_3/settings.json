@@ -2,7 +2,8 @@
     "private_key": "keys/asymmetric_private_key.pem",
     "public_key": "keys/asymmetric_public_key.pem",
     "symmetric_key": "keys/symmetric_key.txt",
-    "decrypted_file": "texts/decrypted_text.txt",
+    "decrypted_symmetric": "keys/decrypted_symmetric_key.txt",
+    "decrypted_text": "texts/decrypted_text.txt",
     "encrypted_file": "texts/encrypted_text.txt",
     "initial_file": "texts/src_text.txt"
 }

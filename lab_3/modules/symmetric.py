@@ -2,7 +2,7 @@ import os
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-import work_with_files
+from modules.work_with_files import *
 
 class Symmetric:
     """
@@ -32,7 +32,7 @@ class Symmetric:
         Returns:
         None
         """
-        work_with_files.write_bytes_to_txt(self.key, path)
+        write_bytes_to_txt(self.key, path)
 
     def deserialization_key(self, path: str)->None:
         """
@@ -44,7 +44,7 @@ class Symmetric:
         Returns:
         bytes
         """
-        self.key = work_with_files.read_bytes(path)
+        self.key = read_bytes(path)
 
     def __data_padding(self, text: str):
         """
