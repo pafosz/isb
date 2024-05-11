@@ -20,7 +20,7 @@ def writing_to_json(data: str, path: str)->None:
         logging.error(f'[writing_to_json]: {e}')
 
 
-def read_json(path: str)->str:
+def read_json(path: str)->dict:
     """
     Reads data from a JSON file and returns it.
 
@@ -33,7 +33,7 @@ def read_json(path: str)->str:
     """
     try:
         with open(path, 'r') as file:
-            data = json.loads(file)
+            data = json.load(file)
 
         return data
     except Exception as e:
@@ -85,13 +85,13 @@ def write_to_txt(text: str, path: str)->None:
     path (str): The path to the file where the text will be written.    
     """
     try:
-        with open(path, 'w') as file:
+        with open(path, 'w', encoding='utf-8') as file:
             file.write(text)
     except Exception as e:
         logging.error(f'[write_to_txt]: {e}')
 
 
-def read_txt(path: str)->None:
+def read_txt(path: str)->str:
     """
     Reads the contents of the file at the specified path.
 
@@ -102,7 +102,9 @@ def read_txt(path: str)->None:
     str: The contents of the file.
     """
     try:
-        with open(path, 'r') as file:
-            return file.read()
+        with open(path, 'r', encoding='utf-8') as file:
+            text = file.read()
+
+        return text
     except Exception as e:
         logging.error(f'[read_txt]: {e}')

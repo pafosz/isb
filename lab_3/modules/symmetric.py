@@ -45,6 +45,7 @@ class Symmetric:
         bytes
         """
         self.key = read_bytes(path)
+        return self.key
 
     def __data_padding(self, text: str):
         """
@@ -57,13 +58,13 @@ class Symmetric:
         Returns:
         bytes: a byte message that is a multiple of the length of the encrypted block.
         """
-        padder = padding.ANSIX923(128).padder()
+        padder = padding.PKCS7(128).padder()
         btext = bytes(text, 'UTF-8')
-        padded_text = padder.update(btext)+padder.finalize()
+        padded_text = padder.update(btext) + padder.finalize()
 
         return padded_text
     
-    def text_encryption(self, text: str)->str:
+    def text_encryption(self, text: str, key: bytes)->str:
         """
         Encrypt text using a symmetric algorithm.
 
@@ -74,10 +75,10 @@ class Symmetric:
         str: encrypted text.
         """
         iv = os.urandom(16)
-        cipher = Cipher(algorithms.SEED(self.key), modes.CBC(iv))
+        cipher = Cipher(algorithms.SEED(key), modes.CBC(iv))
         encryptor = cipher.encryptor()
         c_text = encryptor.update(self.__data_padding(text)) + encryptor.finalize()
-
+        c_text = iv + c_text
         return c_text
     
     def __text_depadding(self, dc_text: bytes)->str:
@@ -90,12 +91,12 @@ class Symmetric:
         Returns:
         str: decrypted text without padding.
         """
-        unpadder = padding.ANSIX923(128).unpadder()
+        unpadder = padding.PKCS7(128).unpadder()
         unpadder_dc_text = unpadder.update(dc_text) + unpadder.finalize()
 
         return unpadder_dc_text.decode('UTF-8')
     
-    def decryption_text(self, c_text: bytes)->str:
+    def decryption_text(self, c_text: bytes, key: bytes)->str:
         """
         Decrypt ciphertext using a symmetric algorithm.
 
@@ -106,9 +107,9 @@ class Symmetric:
         str: decrypted text.
         """
         iv = c_text[:16]
-        cipher = Cipher(algorithms.SEED(self.key), modes.CBC(iv))
+        cipher = Cipher(algorithms.SEED(key), modes.CBC(iv))
         decryptor = cipher.decryptor()
-        dc_text = decryptor.update(c_text) + decryptor.finalize()
+        dc_text = decryptor.update(c_text[16:]) + decryptor.finalize()
 
         unpadder_dc_text = self.__text_depadding(dc_text)
 
