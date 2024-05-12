@@ -17,8 +17,7 @@ class Symmetric:
 
         Returns:
         self.key(bytes): encryption key.
-        """
-        
+        """        
         self.key = os.urandom(16)
         return self.key
     
@@ -26,7 +25,7 @@ class Symmetric:
         """
         Serializing the symmetric algorithm key to a file.
 
-        Args:
+        Params:
         path(str): path to file for writing.
 
         Returns:
@@ -42,7 +41,7 @@ class Symmetric:
         path(str): path to file whith data
 
         Returns:
-        bytes
+        bytes: returns a deserialized key.
         """
         self.key = read_bytes(path)
         return self.key
@@ -52,7 +51,7 @@ class Symmetric:
         Data padding for block cipher operation - we make the message length 
         a multiple of the length of the encrypted block.
 
-        Args: 
+        Params: 
         text(str): the message that needs to be padded.
 
         Returns:
@@ -61,15 +60,15 @@ class Symmetric:
         padder = padding.PKCS7(128).padder()
         btext = bytes(text, 'UTF-8')
         padded_text = padder.update(btext) + padder.finalize()
-
         return padded_text
     
     def text_encryption(self, text: str, key: bytes)->str:
         """
         Encrypt text using a symmetric algorithm.
 
-        Args:
+        Params:
         text (str): text to be encrypted.
+        key (bytes): the key for encrypting the text.
 
         Returns:
         str: encrypted text.
@@ -85,7 +84,7 @@ class Symmetric:
         """
         Remove padding from the decrypted text.
 
-        Args:
+        Params:
         dc_text (bytes): decrypted text with padding.
 
         Returns:
@@ -93,15 +92,15 @@ class Symmetric:
         """
         unpadder = padding.PKCS7(128).unpadder()
         unpadder_dc_text = unpadder.update(dc_text) + unpadder.finalize()
-
         return unpadder_dc_text.decode('UTF-8')
     
     def decryption_text(self, c_text: bytes, key: bytes)->str:
         """
         Decrypt ciphertext using a symmetric algorithm.
 
-        Args:
+        Params:
         c_text (bytes): ciphertext to be decrypted.
+        key (bytes): the key to decrypt the text.
 
         Returns:
         str: decrypted text.
@@ -110,8 +109,6 @@ class Symmetric:
         cipher = Cipher(algorithms.SEED(key), modes.CBC(iv))
         decryptor = cipher.decryptor()
         dc_text = decryptor.update(c_text[16:]) + decryptor.finalize()
-
         unpadder_dc_text = self.__text_depadding(dc_text)
-
         return unpadder_dc_text
         

@@ -4,7 +4,6 @@ from cryptography.hazmat.primitives.serialization import load_pem_public_key, lo
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
 
-
 class Asymmetric:
     def __init__(self):
         self.private_key = None
@@ -26,7 +25,7 @@ class Asymmetric:
         """
         Serialize the public key to a file in PEM format.
 
-        Args:
+        Params:
         path (str): The file path to write the public key to.
 
         Returns:
@@ -40,7 +39,7 @@ class Asymmetric:
         """
         Serialize the private key to a file in PEM format without encryption.
 
-        Args:
+        Params:
         path (str): The file path to write the private key to.
 
         Returns:
@@ -55,7 +54,7 @@ class Asymmetric:
         """
         Deserialize a public key from a file in PEM format.
 
-        Args:
+        Params:
         path (str): The file path containing the public key.
 
         Returns:
@@ -70,7 +69,7 @@ class Asymmetric:
         """
         Deserialize a private key from a file in PEM format without encryption.
 
-        Args:
+        Params:
         path (str): The file path containing the private key.
 
         Returns:
@@ -85,8 +84,9 @@ class Asymmetric:
         """
         Encrypt the given text using the public key.
 
-        Args:
+        Params:
         key (bytes): The key to be encrypted.
+        path_to_public_key (str): the path to the public key file.
 
         Returns:
         bytes: The encrypted cipherkey.
@@ -99,8 +99,9 @@ class Asymmetric:
         """
         Decrypt the given ciphertext using the private key.
 
-        Args:
+        Params:
         key (bytes): The encrypted cipherkey.
+        path_to_private_key (str): the path to the private key file.
 
         Returns:
         str: The decrypted plaintext.

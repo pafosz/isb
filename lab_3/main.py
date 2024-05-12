@@ -21,6 +21,54 @@ def clean_text_files(file_paths: list):
         except IOError:
             print(f"Ошибка: не удалось открыть файл '{file_path}'.")
 
+
+def actions_for_generating_keys(symmetric: Symmetric, asymmetric: Asymmetric, settings: dict)->None:
+    symmetric.key_generation()
+    symmetric.serialization_key(settings['symmetric_key'])
+
+    asymmetric.generating_key_pair()
+    asymmetric.serialization_private_key(settings['private_key'])
+    asymmetric.serialization_public_key(settings['public_key'])
+
+    print(f'Ключи сгенерированы и сериализованы в {settings["symmetric_key"], \
+                                                    settings["private_key"], \
+                                                    settings["public_key"]}')
+    
+    
+def actions_for_encrypting_text(symmetric: Symmetric, settings: dict)->None:
+    symmetric_key = symmetric.deserialization_key(settings['symmetric_key'])
+    text = work_with_files.read_txt(settings['initial_file'])
+    e_text = symmetric.text_encryption(text, symmetric_key)
+    work_with_files.write_bytes_to_txt(e_text, settings['encrypted_file'])
+
+    print(f'Текст зашифрован и направлен в файл {settings['encrypted_file']}')
+
+
+def actions_to_encrypt_symmetric_key(symmetric: Symmetric, asymmetric: Asymmetric, settings: dict)->None:
+    symmetric_key = symmetric.deserialization_key(settings['symmetric_key'])
+    work_with_files.write_bytes_to_txt(asymmetric.encrypt_symmetric_key(symmetric_key, settings['public_key']), 
+                                               settings['encrypted_symmetric'])            
+
+    print(f'Симметричный ключ зашифрован и направлен в {settings['encrypted_symmetric']}')
+
+
+def actions_to_decrypt_symmetric_key(asymmetric: Asymmetric, settings: dict)->None:
+    esymmetric_key = work_with_files.read_bytes(settings['encrypted_symmetric'])
+    symmetric_key = asymmetric.decryption_symmetric_key(esymmetric_key, settings['private_key'])            
+    work_with_files.write_bytes_to_txt(symmetric_key, settings['decrypted_symmetric'])
+
+    print(f'Симметричный ключ расшифрован и направлен в {settings["decrypted_symmetric"]}')
+
+
+def actions_for_decrypting_text(symmetric: Symmetric, settings: dict)->None:
+    dec_symmetric_key = symmetric.deserialization_key(settings['decrypted_symmetric'])
+    text = work_with_files.read_bytes(settings['encrypted_file'])
+    dec_text = symmetric.decryption_text(text, dec_symmetric_key)
+    work_with_files.write_to_txt(dec_text, settings['decrypted_text'])
+
+    print(f'Текст расшифрован и направлен в {settings["decrypted_text"]}')
+
+
 def main():
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group(required=True)
@@ -41,48 +89,19 @@ def main():
     
     match args:
         case args if args.generation:
-            symmetric.key_generation()
-            symmetric.serialization_key(settings['symmetric_key'])
-
-            asymmetric.generating_key_pair()
-            asymmetric.serialization_private_key(settings['private_key'])
-            asymmetric.serialization_public_key(settings['public_key'])
-
-            print(f'Ключи сгенерированы и сериализованы в {settings["symmetric_key"], \
-                                                           settings["private_key"], \
-                                                           settings["public_key"]}')
+            actions_for_generating_keys(symmetric, asymmetric, settings)
 
         case args if args.encryption:
-            symmetric_key = symmetric.deserialization_key(settings['symmetric_key'])
-            text = work_with_files.read_txt(settings['initial_file'])
-            e_text = symmetric.text_encryption(text, symmetric_key)
-            work_with_files.write_bytes_to_txt(e_text, settings['encrypted_file'])
-
-            print(f'Текст зашифрован и направлен в файл {settings['encrypted_file']}')
+           actions_for_encrypting_text(symmetric, settings)
 
         case args if args.encryption_key:
-            symmetric_key = symmetric.deserialization_key(settings['symmetric_key'])
-            work_with_files.write_bytes_to_txt(asymmetric.encrypt_symmetric_key(symmetric_key, settings['public_key']), 
-                                               settings['encrypted_symmetric'])            
-
-            print(f'Симметричный ключ зашифрован и направлен в {settings['encrypted_symmetric']}')
+            actions_to_encrypt_symmetric_key(symmetric, asymmetric, settings)
             
         case args if args.decription_key:
-            esymmetric_key = work_with_files.read_bytes(settings['encrypted_symmetric'])
-            symmetric_key = asymmetric.decryption_symmetric_key(esymmetric_key, settings['private_key'])
-            
-            work_with_files.write_bytes_to_txt(symmetric_key, settings['decrypted_symmetric'])
-
-            print(f'Симметричный ключ расшифрован и направлен в {settings["decrypted_symmetric"]}')
+            actions_to_decrypt_symmetric_key(asymmetric, settings)
 
         case args if args.decryption:
-            dec_symmetric_key = symmetric.deserialization_key(settings['decrypted_symmetric'])
-            text = work_with_files.read_bytes(settings['encrypted_file'])
-            dec_text = symmetric.decryption_text(text, dec_symmetric_key)
-
-            work_with_files.write_to_txt(dec_text, settings['decrypted_text'])
-
-            print(f'Текст расшифрован и направлен в {settings["decrypted_text"]}')
+            actions_for_decrypting_text(symmetric, settings)
 
         case args if args.clear:
             clean_text_files([settings['decrypted_symmetric'], settings['decrypted_text'],
