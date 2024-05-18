@@ -11,3 +11,4 @@ if __name__ == "__main__":
     # number_card.time_to_search_for_collision(hash, last_digits, bins)
     print(work_with_files.read_json('card_number.json'))
     print(number_card.algorithm_Luna(work_with_files.read_json('card_number.json')))
+    print(work_with_files.read_txt('bins.txt'))

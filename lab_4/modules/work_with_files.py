@@ -16,3 +16,10 @@ def read_json(path: str)->dict:
     except Exception as e:
         logging.error(f"[read_json]: {e}")
 
+
+def read_txt(path: str)->str:
+    try:
+        with open(path, 'r') as file:
+            return file.read()
+    except Exception as e:
+        logging.error(f'[read_txt]: {e}')
