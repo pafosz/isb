@@ -9,12 +9,25 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import os
 from modules import work_with_files, number_card
 import multiprocessing as mp
 
+
 class CardSelectionWindow(QtWidgets.QMainWindow):
+    """
+    A window for selecting a card by hash value.
+
+    This class provides a user interface for entering a hash value, selecting a file with bin numbers,
+    and entering the last four digits of a card number. It then uses the `select_card_number` function
+    from the `number_card` module to search for a matching card number and displays the result.
+    """
     def __init__(self, parent=None):
+        """
+        Initializes the CardSelectionWindow.
+
+        Args:
+            parent (QWidget, optional): The parent widget of this window.
+        """
         super().__init__(parent)
         self.setWindowTitle("Подбор карты по хешу")
         self.setGeometry(100, 100, 400, 300)
@@ -48,7 +61,8 @@ class CardSelectionWindow(QtWidgets.QMainWindow):
         self.layout.addWidget(self.file_input)
         self.layout.addWidget(self.file_button)
 
-        self.card_label = QtWidgets.QLabel("Введите последние 4 цифры номера карты:")
+        self.card_label = QtWidgets.QLabel(
+            "Введите последние 4 цифры номера карты:")
         self.card_label.setStyleSheet("color: rgb(16, 243, 0);")
         self.card_input = QtWidgets.QLineEdit()
         self.card_input.setStyleSheet("color: rgb(255, 255, 255);")
@@ -71,6 +85,11 @@ class CardSelectionWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(self.centralwidget)
 
     def select_file(self):
+        """
+        Opens a file dialog to select a file with bin numbers.
+
+        The selected file path is then displayed in the file input field.
+        """
         file_dialog = QtWidgets.QFileDialog()
         file_dialog.setNameFilter("File with bins (*.txt)")
         if file_dialog.exec_():
@@ -78,6 +97,13 @@ class CardSelectionWindow(QtWidgets.QMainWindow):
             self.file_input.setText(selected_file)
 
     def search_card(self):
+        """
+        Searches for a card number that matches the given hash and last four digits.
+
+        The function reads the bin numbers from the selected file, and then calls the `select_card_number`
+        function from the `number_card` module to search for a matching card number. The result is
+        displayed in a message box.
+        """
         hash_value = self.hash_input.text()
         file_path = self.file_input.text()
         bins = work_with_files.read_txt(file_path)
@@ -92,7 +118,7 @@ class CardSelectionWindow(QtWidgets.QMainWindow):
 
         card_number = number_card.select_card_number(hash_value, int(last_digits),
                                                      bins, mp.cpu_count())
-        
+
         if card_number:
             progress_dialog.close()
             result_dialog = QtWidgets.QMessageBox()
@@ -110,7 +136,19 @@ class CardSelectionWindow(QtWidgets.QMainWindow):
 
 
 class CardValidationWindow(QtWidgets.QMainWindow):
+    """
+    A window for validating a credit card number.
+
+    This class provides a user interface for entering a credit card number and displays
+    whether the number is valid or not based on the Luhn algorithm.
+    """
     def __init__(self, parent=None):
+        """
+        Initializes the CardValidationWindow.
+
+        Args:
+            parent (QWidget, optional): The parent widget of this window.
+        """
         super().__init__(parent)
         self.setWindowTitle("Проверка корректности номера карты")
         self.setGeometry(100, 100, 400, 200)
@@ -133,6 +171,12 @@ class CardValidationWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(self.centralwidget)
 
     def validate_card_number(self):
+        """
+        Validates the credit card number entered by the user.
+
+        The function checks if the length of the card number is 16 and if the number is valid
+        according to the Luhn algorithm. The result is displayed in a label.
+        """
         card_number = self.card_input.text()
         if len(card_number) == 16 and number_card.algorithm_Luna(card_number):
             self.result_label.setText("Номер карты введен корректно")
@@ -143,7 +187,21 @@ class CardValidationWindow(QtWidgets.QMainWindow):
 
 
 class SearchTimeWindow(QtWidgets.QMainWindow):
+    """
+    A window for measuring the time it takes to search for a collision.
+
+    This class provides a user interface for entering a hash value, selecting a file with bin numbers,
+    and entering the last four digits of a card number. It then calls the `time_to_search_for_collision`
+    function from the `number_card` module to measure the time it takes to search for a matching card
+    number using different numbers of CPU processes.
+    """
     def __init__(self, parent=None):
+        """
+        Initializes the SearchTimeWindow.
+
+        Args:
+            parent (QWidget, optional): The parent widget of this window.
+        """
         super().__init__(parent)
         self.setGeometry(100, 100, 400, 300)
 
@@ -177,7 +235,8 @@ class SearchTimeWindow(QtWidgets.QMainWindow):
         self.layout.addWidget(self.file_input)
         self.layout.addWidget(self.file_button)
 
-        self.card_label = QtWidgets.QLabel("Введите последние 4 цифры номера карты:")
+        self.card_label = QtWidgets.QLabel(
+            "Введите последние 4 цифры номера карты:")
         self.card_label.setStyleSheet("color: rgb(16, 243, 0);")
         self.card_input = QtWidgets.QLineEdit()
         self.card_input.setStyleSheet("color: rgb(255, 255, 255);")
@@ -200,6 +259,11 @@ class SearchTimeWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(self.centralwidget)
 
     def select_file(self):
+        """
+        Opens a file dialog to select a file with bin numbers.
+
+        The selected file path is then displayed in the file input field.
+        """
         file_dialog = QtWidgets.QFileDialog()
         file_dialog.setNameFilter("File with bins (*.txt)")
         if file_dialog.exec_():
@@ -207,6 +271,14 @@ class SearchTimeWindow(QtWidgets.QMainWindow):
             self.file_input.setText(selected_file)
 
     def time_to_search_for_collision(self):
+        """
+        Measures the time it takes to search for a collision.
+
+        The function reads the bin numbers from the selected file, and then calls the
+        `time_to_search_for_collision` function from the `number_card` module to measure
+        the time it takes to search for a matching card number using different numbers of
+        CPU processes. The results are then displayed in a plot.
+        """
         hash_value = self.hash_input.text()
         file_path = self.file_input.text()
         bins = work_with_files.read_txt(file_path)
@@ -223,13 +295,25 @@ class SearchTimeWindow(QtWidgets.QMainWindow):
                                                  bins)
 
 
-
-
 class Ui_CardSelectionAssistant(object):
+    """
+    The main user interface for the Card Selection Assistant application.
+
+    This class sets up the main window of the application, including the layout and three
+    buttons for the different functionalities: card selection, card validation, and search
+    time measurement.
+    """
     def setupUi(self, CardSelectionAssistant):
+        """
+        Sets up the user interface for the Card Selection Assistant application.
+
+        Args:
+            CardSelectionAssistant (QMainWindow): The main window of the application.
+        """
         CardSelectionAssistant.setObjectName("CardSelectionAssistant")
         CardSelectionAssistant.resize(420, 410)
-        CardSelectionAssistant.setStyleSheet("background-color: rgb(58, 58, 58);")
+        CardSelectionAssistant.setStyleSheet(
+            "background-color: rgb(58, 58, 58);")
         self.centralwidget = QtWidgets.QWidget(CardSelectionAssistant)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
@@ -316,26 +400,48 @@ class Ui_CardSelectionAssistant(object):
         self.btn3.clicked.connect(self.open_search_time_window)
 
     def retranslateUi(self, CardSelectionAssistant):
+        """
+        Translates the user interface text to the desired language.
+
+        Args:
+            CardSelectionAssistant (QMainWindow): The main window of the application.
+        """
         _translate = QtCore.QCoreApplication.translate
-        CardSelectionAssistant.setWindowTitle(_translate("CardSelectionAssistant", "Помощник по подбору карты"))
-        self.label.setText(_translate("CardSelectionAssistant", "Выберите режим работы приложения"))
-        self.btn1.setWhatsThis(_translate("CardSelectionAssistant", "<html><head/><body><p><br/></p></body></html>"))
-        self.btn1.setText(_translate("CardSelectionAssistant", "Подбор карты по хешу"))
-        self.btn2.setText(_translate("CardSelectionAssistant", "Проверка корректности номера карты"))
-        self.btn3.setText(_translate("CardSelectionAssistant", "Узнать время поиска коллизии"))
+        CardSelectionAssistant.setWindowTitle(_translate(
+            "CardSelectionAssistant", "Помощник по подбору карты"))
+        self.label.setText(_translate("CardSelectionAssistant",
+                           "Выберите режим работы приложения"))
+        self.btn1.setWhatsThis(_translate(
+            "CardSelectionAssistant", "<html><head/><body><p><br/></p></body></html>"))
+        self.btn1.setText(_translate(
+            "CardSelectionAssistant", "Подбор карты по хешу"))
+        self.btn2.setText(_translate("CardSelectionAssistant",
+                          "Проверка корректности номера карты"))
+        self.btn3.setText(_translate("CardSelectionAssistant",
+                          "Узнать время поиска коллизии"))
 
     def open_card_selection_window(self):
-        self.card_selection_window = CardSelectionWindow(CardSelectionAssistant)
+        """
+        Opens the Card Selection Window.
+        """
+        self.card_selection_window = CardSelectionWindow(
+            CardSelectionAssistant)
         self.card_selection_window.show()
 
     def open_card_validation_window(self):
-        self.open_card_validation_window = CardValidationWindow(CardSelectionAssistant)
+        """
+        Opens the Card Validation Window.
+        """
+        self.open_card_validation_window = CardValidationWindow(
+            CardSelectionAssistant)
         self.open_card_validation_window.show()
 
     def open_search_time_window(self):
+        """
+        Opens the Search Time Window.
+        """
         self.search_time_window = SearchTimeWindow(CardSelectionAssistant)
         self.search_time_window.show()
-
 
 
 if __name__ == "__main__":
